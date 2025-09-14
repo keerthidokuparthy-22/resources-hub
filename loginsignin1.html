@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login & Sign In</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #bcd9f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      width: 750px;
+      height: 450px;
+      background: white;
+      display: flex;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .form-container {
+      width: 50%;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+    }
+
+    .form-container input {
+      margin: 10px 0;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    .form-container button {
+      margin-top: 15px;
+      padding: 12px;
+      background-color: #6d5dfc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .form-container button:hover {
+      background-color: #4c3fd1;
+    }
+
+    .form-container .socials {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .form-container .socials img {
+      width: 30px;
+      height: 30px;
+      margin: 0 8px;
+      cursor: pointer;
+    }
+
+    .switch {
+      width: 50%;
+      background: linear-gradient(135deg, #6d5dfc, #a084ff);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .switch h2 {
+      margin-bottom: 10px;
+    }
+
+    .switch p {
+      margin-bottom: 20px;
+    }
+
+    .switch button {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .switch button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .hide {
+      display: none;
+    }
+
+    .forgot {
+      text-align: right;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="form-container" id="loginForm">
+      <h2>Login</h2>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <div class="forgot"><a href="#">Forgot Password?</a></div>
+      <button>Login</button>
+      <p style="margin-top:10px;">or login with social platforms</p>
+      <div class="socials">
+        <img src="https://img.icons8.com/ios-filled/50/google-logo.png" alt="Google"/>
+        <img src="https://img.icons8.com/ios-filled/50/facebook-new.png" alt="Facebook"/>
+        <img src="https://img.icons8.com/ios-filled/50/github.png" alt="GitHub"/>
+        <img src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="LinkedIn"/>
+      </div>
+    </div>
+
+    <div class="switch" id="loginSwitch">
+      <h2>Hello, Welcome!</h2>
+      <p>Don't have an account?</p>
+      <button onclick="toggleForms()">Sign In</button>
+    </div>
+
+    <div class="form-container hide" id="registerForm">
+      <h2>Sign In</h2>
+      <input type="text" placeholder="Username" />
+      <input type="email" placeholder="Email" />
+      <input type="password" placeholder="Password" />
+      <button>Sign In</button>
+      <p style="margin-top:10px;">or register with social platforms</p>
+      <div class="socials">
+        <img src="https://img.icons8.com/ios-filled/50/google-logo.png" alt="Google"/>
+        <img src="https://img.icons8.com/ios-filled/50/facebook-new.png" alt="Facebook"/>
+        <img src="https://img.icons8.com/ios-filled/50/github.png" alt="GitHub"/>
+        <img src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="LinkedIn"/>
+      </div>
+    </div>
+
+    <div class="switch hide" id="registerSwitch">
+      <h2>Welcome Back!</h2>
+      <p>Already have an account?</p>
+      <button onclick="toggleForms()">Login</button>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const loginSwitch = document.getElementById("loginSwitch");
+    const registerSwitch = document.getElementById("registerSwitch");
+
+    function toggleForms() {
+      loginForm.classList.toggle("hide");
+      registerForm.classList.toggle("hide");
+      loginSwitch.classList.toggle("hide");
+      registerSwitch.classList.toggle("hide");
+    }
+  </script>
+
+</body>
+</html>
