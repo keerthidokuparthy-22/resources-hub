@@ -1,186 +1,209 @@
+
+
+<?php
+session_start();
+if (isset($_SESSION['message'])) {
+    echo '<div class="alert">' . htmlspecialchars($_SESSION['message']) . '</div>';
+    unset($_SESSION['message']);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login & Sign In</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Resources – Login</title>
 
-    body {
-      background: #bcd9f7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
 
-    .container {
-      width: 750px;
-      height: 450px;
-      background: white;
-      display: flex;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      border-radius: 20px;
-      overflow: hidden;
-    }
+    <style>
+                *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+        body{
+            height:100vh;display:flex;justify-content:center;align-items:center;
+            background:#0d0e17;color:#fff;overflow:hidden}
+        .container{
+            width:880px;height:520px;background:#11131f;border-radius:20px;overflow:hidden;
+            box-shadow:0 15px 40px rgba(0,0,0,.55);display:flex}
 
-    .form-container {
-      width: 50%;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+        /* LEFT MESSAGE PANEL */
+        .left{
+            flex:1;background:linear-gradient(135deg,#3b82f6 0%,#06b6d4 100%);
+            display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+            padding:60px 50px;color:#f1f5f9}
+        .left h1{
+            font-size:30px;font-weight:700;line-height:1.2;margin-bottom:18px}
+        .left p{
+            font-size:15px;max-width:280px;opacity:.95}
+        .left ul{
+            margin-top:28px;list-style:none;font-size:14px;line-height:1.8}
+        .left ul li::before{
+            content:"➜";margin-right:8px}
 
-    .form-container h2 {
-      margin-bottom: 20px;
-    }
+        /* RIGHT FORMS */
+        .forms-wrapper{width:50%;position:relative;overflow:hidden}
+        .slider{width:200%;height:100%;display:flex;transition:transform .6s ease-in-out}
+        .form-box{width:50%;padding:60px 50px;display:flex;flex-direction:column;justify-content:center}
+        h2{font-size:24px;color:#3b82f6;margin-bottom:26px;font-weight:700}
+        .field{position:relative;margin:22px 0;border-bottom:2px solid #364152}
+        .field input{
+            width:100%;padding:14px 12px;background:transparent;border:none;color:#fff;font-size:15px;outline:none}
+        .field label{
+            position:absolute;left:12px;top:50%;transform:translateY(-50%);
+            color:#8b98b6;font-size:15px;pointer-events:none;transition:.3s}
+        .field input:focus+label,
+        .field input:not(:placeholder-shown)+label{
+            top:-10px;font-size:12px;color:#3b82f6}
+        .btn{
+            width:100%;padding:13px;background:#3b82f6;border:none;border-radius:8px;
+            font-size:15px;font-weight:600;color:#fff;cursor:pointer;transition:.3s;margin-top:10px}
+        .btn:hover{background:#2d6bdb}
+        .switch{margin-top:28px;font-size:14px}
+        .switch a{color:#06b6d4;text-decoration:none;font-weight:600;cursor:pointer}
 
-    .form-container input {
-      margin: 10px 0;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      width: 100%;
-    }
-
-    .form-container button {
-      margin-top: 15px;
-      padding: 12px;
-      background-color: #6d5dfc;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .form-container button:hover {
-      background-color: #4c3fd1;
-    }
-
-    .form-container .socials {
-      display: flex;
-      justify-content: center;
-      margin-top: 15px;
-    }
-
-    .form-container .socials img {
-      width: 30px;
-      height: 30px;
-      margin: 0 8px;
-      cursor: pointer;
-    }
-
-    .switch {
-      width: 50%;
-      background: linear-gradient(135deg, #6d5dfc, #a084ff);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 40px;
-      text-align: center;
-    }
-
-    .switch h2 {
-      margin-bottom: 10px;
-    }
-
-    .switch p {
-      margin-bottom: 20px;
-    }
-
-    .switch button {
-      background: transparent;
-      color: white;
-      border: 2px solid white;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .switch button:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
-    .hide {
-      display: none;
-    }
-
-    .forgot {
-      text-align: right;
-      font-size: 0.9em;
-      margin-top: 5px;
-    }
-  </style>
+        /* RESPONSIVE */
+        @media(max-width:900px){.
+            .container{flex-direction:column;width:95vw;height:auto}
+            .left{width:100%;height:240px;border-radius:20px 20px 0 0;align-items:center;text-align:center}
+            .forms-wrapper{width:100%}
+            .form-box{padding:40px}
+        }
+    
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+        body{
+            height:100vh;display:flex;justify-content:center;align-items:center;
+            background:#0d0e17;color:#fff;overflow:hidden};
+            <<<<<<< SEARCH
+        .alert {
+            background-color: #00008b;
+            color: white;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 5px;
+            text-align: center;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s, fadeOut 0.5s 2.5s forwards;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0; top: 0;}
+            to {opacity: 1; top: 20px;}
+        }
+        @keyframes fadeOut {
+            from {opacity: 1; top: 20px;}
+            to {opacity: 0; top: 0;}
+        }
+        /* Add styles for alert message */
+        .alert {
+            background-color: #00008b; 
+            color: white;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .container{                                                                                                            
+            width:880px;height:520px;background:#11131f;border-radius:20px;overflow:hidden;
+            box-shadow:0 15px 40px rgba(0,0,0,.55);display:flex}
+      
+        /* Alert Message Styles */
+        .alert {
+            background-color:#00008b ;
+            color: white;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 5px;
+            text-align: center;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s, fadeOut 0.5s 2.5s forwards;
+        }
+        .alert.success {
+            background-color: #4CAF50;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0; top: 0;}
+            to {opacity: 1; top: 20px;}
+        }
+        @keyframes fadeOut {
+            from {opacity: 1; top: 20px;}
+            to {opacity: 0; top: 0;}
+        }
+}
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="form-container" id="loginForm">
-      <h2>Login</h2>
-      <input type="text" placeholder="Username" />
-      <input type="password" placeholder="Password" />
-      <div class="forgot"><a href="#">Forgot Password?</a></div>
-      <button>Login</button>
-      <p style="margin-top:10px;">or login with social platforms</p>
-      <div class="socials">
-        <img src="https://img.icons8.com/ios-filled/50/google-logo.png" alt="Google"/>
-        <img src="https://img.icons8.com/ios-filled/50/facebook-new.png" alt="Facebook"/>
-        <img src="https://img.icons8.com/ios-filled/50/github.png" alt="GitHub"/>
-        <img src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="LinkedIn"/>
-      </div>
+<div class="container">
+        <!-- WELCOME MESSAGE PANEL -->
+    <div class="left">
+        <h1>Write Code. Break Stuff.</h1>
+        <p>Repeat until it works. Or until your brain crashes. Let's make the chaos productive.</p>
     </div>
 
-    <div class="switch" id="loginSwitch">
-      <h2>Hello, Welcome!</h2>
-      <p>Don't have an account?</p>
-      <button onclick="toggleForms()">Sign In</button>
+    <!-- LOGIN / SIGN‑UP PANEL -->
+    <div class="forms-wrapper">
+        <div class="slider" id="slider">
+
+            <!-- ------ LOGIN ------ -->
+            <div class="form-box">
+                <h2>Login</h2>
+                <form id="loginForm" action="process.php" method="POST">
+                    <div class="field">
+                        <input type="text" name="username" required placeholder=" ">
+                        <label>Username</label>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="password" required placeholder=" ">
+                        <label>Password</label>
+                    </div>
+                    <input type="hidden" name="login" value="1">
+                    <button class="btn" type="submit">Enter Library</button>
+                </form>
+                <p class="switch">New here? <a onclick="toSign()">Sign Up</a></p>
+            </div>
+
+            <!-- ------ SIGN UP ------ -->
+            <div class="form-box">
+                <h2>Sign Up</h2>
+                <form id="signForm" action="process.php" method="POST">
+                    <div class="field">
+                        <input type="text" name="username" required placeholder=" ">
+                        <label>Username</label>
+                    </div>
+                    <div class="field">
+                        <input type="email" name="email" required placeholder=" ">
+                        <label>Email</label>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="password" required placeholder=" ">
+                        <label>Password</label>
+                    </div>
+                    <input type="hidden" name="signup" value="1">
+                    <button class="btn" type="submit">Join &nbsp;▶</button>
+                </form>
+                <p class="switch">Already have an account?<a onclick="toLogin()">Login</a></p>
+            </div>
+
+        </div>
     </div>
+</div>
 
-    <div class="form-container hide" id="registerForm">
-      <h2>Sign In</h2>
-      <input type="text" placeholder="Username" />
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Password" />
-      <button>Sign In</button>
-      <p style="margin-top:10px;">or register with social platforms</p>
-      <div class="socials">
-        <img src="https://img.icons8.com/ios-filled/50/google-logo.png" alt="Google"/>
-        <img src="https://img.icons8.com/ios-filled/50/facebook-new.png" alt="Facebook"/>
-        <img src="https://img.icons8.com/ios-filled/50/github.png" alt="GitHub"/>
-        <img src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="LinkedIn"/>
-      </div>
-    </div>
-
-    <div class="switch hide" id="registerSwitch">
-      <h2>Welcome Back!</h2>
-      <p>Already have an account?</p>
-      <button onclick="toggleForms()">Login</button>
-    </div>
-  </div>
-
-  <script>
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
-    const loginSwitch = document.getElementById("loginSwitch");
-    const registerSwitch = document.getElementById("registerSwitch");
-
-    function toggleForms() {
-      loginForm.classList.toggle("hide");
-      registerForm.classList.toggle("hide");
-      loginSwitch.classList.toggle("hide");
-      registerSwitch.classList.toggle("hide");
-    }
-  </script>
+<script>
+function toSign(){ document.getElementById('slider').style.transform='translateX(-50%)'; }
+function toLogin(){ document.getElementById('slider').style.transform='translateX(0)'; }
+</script>
 
 </body>
 </html>
+
