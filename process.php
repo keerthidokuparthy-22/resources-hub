@@ -1,70 +1,77 @@
 <?php
 session_start();
-require "db.php";
+require 'config.php';
 
-// Check if form is submitted
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // LOGIN
-    if (isset($_POST['action']) && $_POST['action'] == "login") {
+    if (isset($_POST['login'])) {
         $username = trim($_POST['username']);
         $password = trim($_POST['password']);
 
-        if (empty($username) || empty($password)) {
-            $_SESSION['message'] = "⚠ Please fill in all fields.";
-            header("Location: index.php");
-            exit();
-        }
-
-        // Check user
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username=? AND password=?");
-        $stmt->bind_param("ss", $username, $password);
+        // Fetch user by username
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->bindParam(':username', $username);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $user = $stmt->fetch();
 
-        if ($result->num_rows == 1) {
-            $_SESSION['message'] = "✅ Login successful!";
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['message'] = "Login successful!";
+            $_SESSION['message_type'] = "success";
+            $_SESSION['username'] = $user['username'];
         } else {
-            $_SESSION['message'] = "❌ Incorrect username or password.";
+            $_SESSION['message'] = "Invalid username or password.";
+            $_SESSION['message_type'] = "error";
         }
-        header("Location: index.php");
+        header("Location: login.php");
         exit();
     }
 
-    // REGISTER
-    if (isset($_POST['action']) && $_POST['action'] == "register") {
+    if (isset($_POST['signup'])) {
         $username = trim($_POST['username']);
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
 
+        // Validate fields
         if (empty($username) || empty($email) || empty($password)) {
-            $_SESSION['message'] = "⚠ All fields are required.";
-            header("Location: index.php");
+            $_SESSION['message'] = "All fields are required.";
+            $_SESSION['message_type'] = "error";
+            header("Location: login.php");
             exit();
         }
 
-        // Check if user exists
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username=? OR email=?");
-        $stmt->bind_param("ss", $username, $email);
+        // Check if username or email already exists
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username OR email = :email");
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
         $stmt->execute();
-        $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
-            $_SESSION['message'] = "⚠ Username or email already exists.";
-            header("Location: index.php");
-            exit();
-        }
-
-        // Insert new user
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $username, $email, $password);
-        if ($stmt->execute()) {
-            $_SESSION['message'] = "✅ Registration successful. Please login!";
+        if ($stmt->fetch()) {
+            $_SESSION['message'] = "Username or Email already exists.";
+            $_SESSION['message_type'] = "error";
         } else {
-            $_SESSION['message'] = "❌ Registration failed.";
+            // Hash password and insert new user
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $hashedPassword);
+
+            if ($stmt->execute()) {
+                $_SESSION['message'] = "Signup successful! Please log in.";
+                $_SESSION['message_type'] = "success";
+            } else {
+                $_SESSION['message'] = "Something went wrong during signup.";
+                $_SESSION['message_type'] = "error";
+            }
         }
-        header("Location: index.php");
+
+        header("Location: login.php");
         exit();
     }
 }
 ?>
+
