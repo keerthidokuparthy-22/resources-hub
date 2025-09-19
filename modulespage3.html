@@ -97,6 +97,14 @@
       </div>
 
       <div class="bg-gray-800 rounded-2xl shadow-lg p-4 flex flex-col justify-between hover:bg-blue-600 hover:scale-105 transition-transform duration-300">
+        <!-- Save Icon (Top-Right) -->
+  <form method="POST" action="save_language.php" class="absolute top-5 right-3">
+    <input type="hidden" name="language" value="Python">
+    <button type="submit">
+      <img src="save-icon.png" alt="Save" class="w-12 h-12 hover:scale-150 transition-transform" />
+    </button>
+  </form>
+
         <h4 class="text-lg font-bold">Python</h4>
         <p class="text-sm text-gray-400 mt-2">Beginner-friendly, versatile language.</p>
        <a href="python.html" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded-lg self-center text-center">Explore</a> 
@@ -272,4 +280,5 @@
   <!-- Footer -->
   <footer class="text-center py-6 mt-12 bg-gray-800 text-gray-400">
     © 2025 Resource Provider | All Rights Reserved
+
   </footer>
