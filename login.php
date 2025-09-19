@@ -1,4 +1,10 @@
-
+<?php
+session_start();
+if (isset($_SESSION['message'])) {
+    echo '<div class="alert">' . htmlspecialchars($_SESSION['message']) . '</div>';
+    unset($_SESSION['message']);
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -198,5 +204,4 @@ function toLogin(){ document.getElementById('slider').style.transform='translate
 
 </body>
 </html>
-
 
