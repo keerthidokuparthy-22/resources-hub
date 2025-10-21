@@ -1,10 +1,4 @@
-<?php
-session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: loginsignup.php");
-    exit();
-}
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +17,7 @@ if (!isset($_SESSION['username'])) {
     <nav class="space-x-6">
       <a href="homepage.html" class="hover:text-blue-400 hover:underline">Home</a>
       <a href="modulespage.html" class="text-blue-400 font-semibold border-b-2 border-blue-400">Modules</a>
-     </nav>
+          </nav>
 </header>
  
   <!-- Page Title -->
@@ -366,5 +360,3 @@ document.addEventListener("DOMContentLoaded", () => {
   <footer class="text-center py-6 mt-12 bg-gray-800 text-gray-400">
     © 2025 Resource Provider | All Rights Reserved
   </footer>
-
-
